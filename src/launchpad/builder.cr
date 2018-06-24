@@ -9,8 +9,8 @@ module Launchpad
     @conn : DB::Database
 
     def initialize(@launchpad_db_path : String,
-                   @widget_layout = [] of Array(Widget | Folder),
-                   @app_layout = [] of Array(App | Folder))
+                   @widget_layout = [] of Array(Item | Folder),
+                   @app_layout = [] of Array(Item | Folder))
       # Widgets or apps that were not in the layout but found in the db
       @extra_widgets = [] of String
       @extra_apps = [] of String
@@ -139,18 +139,16 @@ module Launchpad
       end
 
       # Determine which items are extra items are present compared to the layout provided
-      # TODO
-      # extra_items = list(set(mapping.keys).difference(items_in_layout))
-      extra_items = [] of String
+      extra_items = Set.new(mapping.keys) - items_in_layout
 
-      # # If extra items are found, add them to the layout
-      # if extra_items
-      #   batch(extra_items, 30).each do |extra_items_batch|
-      #     layout << extra_items_batch
-      #   end
-      # end
+      # If extra items are found, add them to the layout
+      unless extra_items.empty?
+        extra_items.each_slice(30).each do |extra_items_slice|
+          layout << extra_items_slice.map { |i| i.as(Item | Folder) }
+        end
+      end
 
-      return extra_items
+      extra_items.to_a
     end
 
     # Manipulates the appropriate database table to layout the items as requested by the user.

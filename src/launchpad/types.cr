@@ -8,8 +8,7 @@ module Launchpad
     WIDGET = 6
   end
 
-  alias App = String
-  alias Widget = String
-  alias Folder = NamedTuple(folder_title: String, folder_layout: Array(Array(App | Widget)))
-  alias FolderOptional = NamedTuple(folder_title: String?, folder_layout: Array(Array(App? | Widget?)))
+  alias Item = String
+  alias Folder = NamedTuple(folder_title: String, folder_layout: Array(Array(Item)))
+  alias FolderOptional = NamedTuple(folder_title: String?, folder_layout: Array(Array(Item?)))
 end

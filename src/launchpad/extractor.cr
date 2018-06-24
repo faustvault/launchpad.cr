@@ -1,5 +1,5 @@
 module Launchpad
-  # TODO
+  # TODO: Think up a better name than Thingo :)
   alias Thingo = {Int32, Int32?, String?, String?, String?}
 
   # Builds a data structure containing the layout for a particular type of data.
@@ -10,11 +10,11 @@ module Launchpad
   # :returns: The layout data structure that was built as a tuple where the first item is the
   #           widget layout and the second item is the app layout.
   private def self.build_layout(root, parent_mapping)
-    layout = [] of Array(App? | Widget? | FolderOptional)
+    layout = [] of Array(Item? | FolderOptional)
 
     # Iterate through pages
     parent_mapping[root].each do |page_id, _, _, _, _|
-      page_items = [] of (App? | Widget? | FolderOptional)
+      page_items = [] of (Item? | FolderOptional)
 
       # Iterate through items
       parent_mapping[page_id].each do |id, type_, app_title, widget_title, group_title|
@@ -29,7 +29,7 @@ module Launchpad
         # A folder has been encountered
         elsif type_ == Types::FOLDER_ROOT
           # Start a hash for the folder with its title and layout
-          folder = FolderOptional.new(folder_title: group_title, folder_layout: [] of Array(App? | Widget?))
+          folder = FolderOptional.new(folder_title: group_title, folder_layout: [] of Array(Item?))
 
           # Iterate through folder pages
           parent_mapping[id].each do |folder_page_id, _, _, _, _|
