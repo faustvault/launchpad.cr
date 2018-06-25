@@ -10,11 +10,11 @@ module Launchpad
   # :returns: The layout data structure that was built as a tuple where the first item is the
   #           widget layout and the second item is the app layout.
   private def self.build_layout(root, parent_mapping)
-    layout = [] of Array(Item? | FolderOptional)
+    layout = [] of PageOptional
 
     # Iterate through pages
     parent_mapping[root].each do |page_id, _, _, _, _|
-      page_items = [] of (Item? | FolderOptional)
+      page_items = [] of PageItemOptional
 
       # Iterate through items
       parent_mapping[page_id].each do |id, type_, app_title, widget_title, group_title|
@@ -29,11 +29,12 @@ module Launchpad
         # A folder has been encountered
         elsif type_ == Types::FOLDER_ROOT
           # Start a hash for the folder with its title and layout
-          folder = FolderOptional.new(folder_title: group_title, folder_layout: [] of Array(Item?))
+          folder = FolderOptional.new(folder_title: group_title,
+                                      folder_layout: [] of FolderPageOptional)
 
           # Iterate through folder pages
           parent_mapping[id].each do |folder_page_id, _, _, _, _|
-            folder_page_items = [] of String?
+            folder_page_items = [] of Item?
 
             # Iterate through folder items
             parent_mapping[folder_page_id].each do |folder_item_id, folder_item_type,

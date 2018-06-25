@@ -9,11 +9,11 @@ module Launchpad
     @conn : DB::Database
 
     def initialize(@launchpad_db_path : String,
-                   @widget_layout = [] of Array(Item | Folder),
-                   @app_layout = [] of Array(Item | Folder))
+                   @widget_layout = [] of Page,
+                   @app_layout = [] of Page)
       # Widgets or apps that were not in the layout but found in the db
-      @extra_widgets = [] of String
-      @extra_apps = [] of String
+      @extra_widgets = [] of Item
+      @extra_apps = [] of Item
 
       # Connect to the Launchpad SQLite database
       @conn = DB.open("sqlite3://#{@launchpad_db_path}")
@@ -115,7 +115,7 @@ module Launchpad
     # :param layout: The layout of items.
     # :param mapping: The mapping of the respective items (as obtained by get_mapping).
     private def add_extra_items(layout, mapping)
-      items_in_layout = [] of String?
+      items_in_layout = [] of Item?
 
       # Iterate through each page of the layout and obtain a list of items contained
       layout.each do |page|
@@ -144,7 +144,7 @@ module Launchpad
       # If extra items are found, add them to the layout
       unless extra_items.empty?
         extra_items.each_slice(30).each do |extra_items_slice|
-          layout << extra_items_slice.map { |i| i.as(Item | Folder) }
+          layout << extra_items_slice.map { |i| i.as(PageItem) }
         end
       end
 

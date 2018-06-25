@@ -9,6 +9,16 @@ module Launchpad
   end
 
   alias Item = String
-  alias Folder = NamedTuple(folder_title: String, folder_layout: Array(Array(Item)))
-  alias FolderOptional = NamedTuple(folder_title: String?, folder_layout: Array(Array(Item?)))
+
+  alias FolderPage = Array(Item)
+  alias Folder = NamedTuple(folder_title: String, folder_layout: Array(FolderPage))
+
+  alias PageItem = Item | Folder
+  alias Page = Array(PageItem)
+
+  alias FolderPageOptional = Array(Item?)
+  alias FolderOptional = NamedTuple(folder_title: String?, folder_layout: Array(FolderPageOptional))
+
+  alias PageItemOptional = Item? | FolderOptional
+  alias PageOptional = Array(PageItemOptional)
 end
