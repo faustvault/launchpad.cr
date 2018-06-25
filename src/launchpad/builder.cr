@@ -79,7 +79,7 @@ module Launchpad
             folder_layout = item["folder_layout"]
 
             # Iterate through folder pages
-            folder_layout.each_with_index do |folder_page, folder_page_ordering|
+            folder_layout.each do |folder_page|
               # Iterate through folder items
               folder_page.each do |title|
                 # Verify that the widget or app requested exists
@@ -362,7 +362,7 @@ module Launchpad
                              root_parent_id: 3)
 
       # Setup the apps
-      group_id = setup_items(Types::APP, @app_layout, app_mapping, group_id, root_parent_id: 1)
+      setup_items(Types::APP, @app_layout, app_mapping, group_id, root_parent_id: 1)
 
       # Enable triggers on the items again so ordering is auto-generated
       sql = <<-SQL

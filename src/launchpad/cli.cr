@@ -131,6 +131,4 @@ module CLI
     when "help" then display_help
     end
   end
-
-  run
 end

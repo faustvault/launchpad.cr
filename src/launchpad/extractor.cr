@@ -37,9 +37,8 @@ module Launchpad
             folder_page_items = [] of Item?
 
             # Iterate through folder items
-            parent_mapping[folder_page_id].each do |folder_item_id, folder_item_type,
-                                                    folder_item_app_title, folder_widget_title,
-                                                    folder_group_title|
+            parent_mapping[folder_page_id].each do |_, folder_item_type, folder_item_app_title,
+                                                    folder_widget_title, _|
               # An app has been encountered which is being added to the folder page
               if folder_item_type == Types::APP
                 folder_page_items << folder_item_app_title
