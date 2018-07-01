@@ -9,7 +9,7 @@ module CLI
       STDERR.puts help
     else
       usage = "Usage: #{PROGRAM} <command> [-h/--help] [<options>]".colorize.bold
-      STDERR.puts <<-USAGE
+      STDERR.puts <<-HELP
                   launchpad is a tool developed in Crystal that allows you to easily manipulate
                   your macOS Launchpad layout using a YAML configuration file.
 
@@ -20,7 +20,7 @@ module CLI
                       extract    Extract the current Launchpad layout and dump it as YAML
                       build      Load a YAML layout and build the Launchpad database
                       help       Shows this help message"
-                  USAGE
+                  HELP
     end
     STDERR.puts
     STDERR.puts <<-FOOTER.colorize.green
